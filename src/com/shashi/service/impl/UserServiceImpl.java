@@ -11,8 +11,27 @@ import com.shashi.service.UserService;
 import com.shashi.utility.DBUtil;
 import com.shashi.utility.MailMessage;
 
+/**
+ * UserServiceImpl - Service implementation for user-related operations.
+ * Handles user registration, authentication, and profile management.
+ * 
+ * @author Shashi Kumar
+ * @version 1.0
+ */
 public class UserServiceImpl implements UserService {
 
+	/**
+	 * Register a new user with provided details.
+	 * Overloaded method that accepts individual parameters.
+	 * 
+	 * @param userName User's full name
+	 * @param mobileNo User's mobile number
+	 * @param emailId User's email address (unique identifier)
+	 * @param address User's residential address
+	 * @param pinCode User's postal code
+	 * @param password User's password
+	 * @return Status message indicating success or failure
+	 */
 	@Override
 	public String registerUser(String userName, Long mobileNo, String emailId, String address, int pinCode,
 			String password) {
@@ -24,17 +43,28 @@ public class UserServiceImpl implements UserService {
 		return status;
 	}
 
+	/**
+	 * Register a new user with UserBean object.
+	 * Validates email uniqueness before insertion.
+	 * Sends confirmation email upon successful registration.
+	 * 
+	 * @param user UserBean object containing user details
+	 * @return Status message indicating success or failure
+	 */
 	@Override
 	public String registerUser(UserBean user) {
 
 		String status = "User Registration Failed!";
 
+		// Check if email is already registered
 		boolean isRegtd = isRegistered(user.getEmail());
 
 		if (isRegtd) {
 			status = "Email Id Already Registered!";
 			return status;
 		}
+		
+		// Establish database connection
 		Connection conn = DBUtil.provideConnection();
 		PreparedStatement ps = null;
 		if (conn != null) {
@@ -42,7 +72,7 @@ public class UserServiceImpl implements UserService {
 		}
 
 		try {
-
+			// Insert user record using PreparedStatement to prevent SQL injection
 			ps = conn.prepareStatement("insert into " + IUserConstants.TABLE_USER + " values(?,?,?,?,?,?)");
 
 			ps.setString(1, user.getEmail());
@@ -56,6 +86,7 @@ public class UserServiceImpl implements UserService {
 
 			if (k > 0) {
 				status = "User Registered Successfully!";
+				// Send registration confirmation email
 				MailMessage.registrationSuccess(user.getEmail(), user.getName().split(" ")[0]);
 			}
 
@@ -70,6 +101,12 @@ public class UserServiceImpl implements UserService {
 		return status;
 	}
 
+	/**
+	 * Check if a user with given email is already registered.
+	 * 
+	 * @param emailId Email address to check
+	 * @return true if email exists, false otherwise
+	 */
 	@Override
 	public boolean isRegistered(String emailId) {
 		boolean flag = false;
@@ -90,7 +127,6 @@ public class UserServiceImpl implements UserService {
 				flag = true;
 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -101,6 +137,14 @@ public class UserServiceImpl implements UserService {
 		return flag;
 	}
 
+	/**
+	 * Validate user credentials during login.
+	 * Checks if email and password combination exists in database.
+	 * 
+	 * @param emailId User's email address
+	 * @param password User's password
+	 * @return "valid" if credentials match, error message otherwise
+	 */
 	@Override
 	public String isValidCredential(String emailId, String password) {
 		String status = "Login Denied! Incorrect Username or Password";
@@ -111,7 +155,7 @@ public class UserServiceImpl implements UserService {
 		ResultSet rs = null;
 
 		try {
-
+			// Query database for matching email and password
 			ps = con.prepareStatement("select * from user where email=? and password=?");
 
 			ps.setString(1, emailId);
@@ -133,6 +177,14 @@ public class UserServiceImpl implements UserService {
 		return status;
 	}
 
+	/**
+	 * Retrieve complete user details for authenticated user.
+	 * Used after successful login to populate user session.
+	 * 
+	 * @param emailId User's email address
+	 * @param password User's password
+	 * @return UserBean object with user details, or null if not found
+	 */
 	@Override
 	public UserBean getUserDetails(String emailId, String password) {
 
@@ -172,6 +224,13 @@ public class UserServiceImpl implements UserService {
 		return user;
 	}
 
+	/**
+	 * Get user's first name from email.
+	 * Extracts first name from full name field.
+	 * 
+	 * @param emailId User's email address
+	 * @return First name of the user
+	 */
 	@Override
 	public String getFName(String emailId) {
 		String fname = "";
@@ -190,6 +249,7 @@ public class UserServiceImpl implements UserService {
 			if (rs.next()) {
 				fname = rs.getString(1);
 
+				// Extract first name from full name
 				fname = fname.split(" ")[0];
 
 			}
@@ -202,6 +262,13 @@ public class UserServiceImpl implements UserService {
 		return fname;
 	}
 
+	/**
+	 * Get user's address from email.
+	 * Used during order processing to retrieve delivery address.
+	 * 
+	 * @param userId User's email address
+	 * @return User's address
+	 */
 	@Override
 	public String getUserAddr(String userId) {
 		String userAddr = "";

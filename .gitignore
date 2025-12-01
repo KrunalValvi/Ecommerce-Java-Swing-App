@@ -1,1 +1,44 @@
+# Build artifacts
 /target/
+/build/
+*.class
+*.jar
+*.war
+*.ear
+
+# IDE
+.classpath
+.project
+.settings/
+.idea/
+*.iml
+*.iws
+*.ipr
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+logs/
+
+# Database
+*.db
+*.sqlite
+*.sql
+
+# Dependencies
+/node_modules/
+/.gradle/
+
+# Misc
+.cache/
+*.tmp
