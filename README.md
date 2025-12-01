@@ -158,6 +158,19 @@ http://localhost:8080/shopping-cart
 4. **Update Shipments** - Track and update delivery status
 5. **View Analytics** - Monitor sales and inventory
 
+## 📚 Documentation
+
+All documentation is organized in the `docs/` folder:
+
+- **[QUICKSTART.md](docs/QUICKSTART.md)** - 5-minute setup guide
+- **[ARCHITECTURE.md](docs/ARCHITECTURE.md)** - System design and architecture
+- **[DEPLOYMENT.md](docs/DEPLOYMENT.md)** - Deployment procedures
+- **[CONTRIBUTING.md](docs/CONTRIBUTING.md)** - Developer guidelines
+- **[SECURITY.md](docs/SECURITY.md)** - Security policies
+- **[FAQ.md](docs/FAQ.md)** - Frequently asked questions
+- **[CHANGELOG.md](docs/CHANGELOG.md)** - Version history
+- **[DOCS_INDEX.md](docs/DOCS_INDEX.md)** - Documentation index
+
 ---
 
 ## 🔌 API Endpoints
@@ -313,7 +326,7 @@ Contributions are welcome! Please follow these steps:
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
+See [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md) for detailed guidelines.
 
 ---
 
