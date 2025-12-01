@@ -1,4 +1,4 @@
-# Ellison Electronics - E-Commerce Platform
+# Electronics - E-Commerce Platform
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Java](https://img.shields.io/badge/Java-1.8+-blue.svg)](https://www.java.com)
